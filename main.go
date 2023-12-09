@@ -32,13 +32,41 @@ func main() {
 	}
 	fmt.Println("Connected to the database")
 
+    // creating database 
+	createDataBase := `CREATE TABLE IF NOT EXISTS Book (
+		id INT AUTO_INCREMENT PRIMARY KEY,
+		name VARCHAR(50),
+		author_name VARCHAR(50),
+		publish_date VARCHAR(50),
+		image_url VARCHAR(50),
+		location VARCHAR(50)
+	)`
+
+	 db.Exec(createDataBase)
+	 
+
+
 	router := gin.Default()
 	router.GET("/api/books", func(ctx *gin.Context) {
-		jsonObject := map[string]interface{}{
-			"audi": 4.8,
-			"benz": 4.9,
+		getQuery := `SELECT * from Book`
+		rows,err := db.Query(getQuery)
+		if(err!=nil){
+			ctx.JSON(401,gin.H{"error": err.Error()})
+			return
 		}
-		ctx.AsciiJSON(200, jsonObject)
+		var books []models.Book;
+		for rows.Next(){
+            var book models.Book;
+
+			err := rows.Scan(&book.Id,&book.Name,&book.Author,&book.PublishedDate,&book.Image,&book.Location)
+			if(err!=nil){
+				ctx.JSON(401,gin.H{"error": err.Error()})
+				return
+			}	
+			books = append(books, book)
+		}
+
+		ctx.JSON(200,gin.H{"books":books})
 	})
 
 	router.POST("/api/books", func(ctx *gin.Context) {
@@ -47,8 +75,14 @@ func main() {
 			ctx.JSON(401,gin.H{"error": err.Error()})
 			return
 		}
-		fmt.Printf("%+v\n", book)
-		
+		insertQuery := `INSERT INTO Book (name,author_name,publish_date,image_url,location) VALUES (?,?,?,?,?)`
+		_, err := db.Exec(insertQuery,book.Name,book.Author,book.PublishedDate,book.Image,book.Location)
+		if(err!=nil){
+			ctx.JSON(401,gin.H{"error": err.Error()})
+			return
+		}
+		ctx.JSON(200,gin.H{"message":"Successfully Added Book"})
+
 	})
 
 	router.PUT("/api/books/:id", func(ctx *gin.Context) {

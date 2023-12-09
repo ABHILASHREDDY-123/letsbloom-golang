@@ -10,3 +10,7 @@
 [GIN-debug] [WARNING] You trusted all proxies, this is NOT safe. We recommend you to set a value.
 Please check https://pkg.go.dev/github.com/gin-gonic/gin#readme-don-t-trust-all-proxies for details.
 [GIN-debug] Listening and serving HTTP on :8080
+[GIN-debug] redirecting request 301: /api/books --> /api/books
+[GIN] 2023/12/09 - 12:10:30 | 200 |            0s |       127.0.0.1 | GET      "/api/books"
+[GIN-debug] redirecting request 307: /api/books --> /api/books
+[GIN] 2023/12/09 - 12:10:54 | 200 |      8.7066ms |       127.0.0.1 | POST     "/api/books"
