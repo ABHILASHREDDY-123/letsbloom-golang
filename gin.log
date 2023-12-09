@@ -5,8 +5,8 @@
  - using code:	gin.SetMode(gin.ReleaseMode)
 
 [GIN-debug] GET    /api/books                --> main.main.func1 (3 handlers)
+[GIN-debug] POST   /api/books                --> main.main.func2 (3 handlers)
+[GIN-debug] PUT    /api/books/:id            --> main.main.func3 (3 handlers)
 [GIN-debug] [WARNING] You trusted all proxies, this is NOT safe. We recommend you to set a value.
 Please check https://pkg.go.dev/github.com/gin-gonic/gin#readme-don-t-trust-all-proxies for details.
 [GIN-debug] Listening and serving HTTP on :8080
-[GIN] 2023/12/09 - 11:07:04 | 200 |            0s |             ::1 | GET      "/api/books"
-[GIN] 2023/12/09 - 11:07:04 | 404 |            0s |             ::1 | GET      "/favicon.ico"
